@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Ived Tracker</string>
+    <string name="pref_speakerphone_key">speakerphone_preference</string>
+    <string name="pref_speakerphone_default">auto</string>
+    <string name="main_service_notification_text">IVED Tracker Service</string>
+    <string name="device_id">Device Id</string>
+</resources>
