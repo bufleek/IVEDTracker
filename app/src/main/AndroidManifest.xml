@@ -6,19 +6,27 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
+        android:name=".utils.IVED"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".utils.IVED"
         android:theme="@style/Theme.IVEDTracker">
-        <service android:name=".utils.services.IvedService"
-            android:foregroundServiceType="camera|mediaProjection|dataSync"/>
+        <activity
+            android:name=".ui.permissions.RemoteConnectionConsentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.permissions.PermissionsActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".utils.services.IvedService"
+            android:foregroundServiceType="camera|mediaProjection|dataSync" />
 
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -36,7 +44,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.FullScreen" />
         <activity
-            android:name=".ui.remote_control.RTCActivity"
+            android:name=".ui.rtc.RTCActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.FullScreen" />
     </application>

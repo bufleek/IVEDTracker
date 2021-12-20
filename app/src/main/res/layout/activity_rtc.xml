@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:keepScreenOn="true"
-        tools:context=".ui.remote_control.RTCActivity">
+        tools:context=".ui.rtc.RTCActivity">
 
         <org.webrtc.SurfaceViewRenderer
             android:id="@+id/remote_view"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/curve_background"
+            android:background="@drawable/bg_stroke"
             android:backgroundTint="@android:color/secondary_text_light"
             android:gravity="center"
             android:orientation="horizontal"

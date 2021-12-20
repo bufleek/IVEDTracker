@@ -1,4 +1,4 @@
-package com.ived.tracker.ui.remote_control
+package com.ived.tracker.ui.rtc
 
 import android.Manifest
 import android.content.Intent
@@ -27,19 +27,12 @@ class RTCActivity : AppCompatActivity() {
 
     private lateinit var rtcClient: RTCClient
     private lateinit var signallingClient: SignalingClient
-
     private val audioManager by lazy { RTCAudioManager.create(this) }
-
     val TAG = "RTCActivity"
-
     private var meetingID: String = "test-call"
-
     private var isJoin = false
-
     private var isMute = false
-
     private var isVideoPaused = false
-
     private var inSpeakerMode = true
 
     private val sdpObserver = object : AppSdpObserver() {
@@ -164,8 +157,10 @@ class RTCActivity : AppCompatActivity() {
         )
 
         rtcClient.initSurfaceView(binding.remoteView)
-        rtcClient.initSurfaceView(binding.localView)
-        rtcClient.startLocalVideoCapture(binding.localView)
+        if(isJoin){
+            rtcClient.initSurfaceView(binding.localView)
+            rtcClient.startLocalVideoCapture(baseContext)
+        }
         val deviceId = (application as IVED).deviceId.value ?: "test-call"
         signallingClient = SignalingClient(deviceId, meetingID, createSignallingClientListener())
         if (!isJoin)

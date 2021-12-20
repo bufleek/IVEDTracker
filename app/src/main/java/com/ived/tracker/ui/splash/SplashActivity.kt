@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
+import com.ived.tracker.R
 import com.ived.tracker.ui.main.MainActivity
 import com.ived.tracker.utils.IVED
 import com.ived.tracker.utils.tools.deviceIdPref
@@ -23,6 +24,8 @@ class SplashActivity : AppCompatActivity() {
         ived.deviceId.observe(this, {
             if (it != null) {
                 startActivity(Intent(this, MainActivity::class.java))
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                finish()
             } else {
                 val deviceIdFlow: Flow<String?> = ived.dataStore.data.map { prefs ->
                     prefs[deviceIdPref]

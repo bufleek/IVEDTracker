@@ -20,4 +20,13 @@
         <item name="android:windowBackground">@drawable/bg_splash</item>
     </style>
     <style name="Theme.FullScreen" parent="Theme.IVEDTracker"/>
+    
+    <style name="Theme.IVEDTracker.PauseDialog" parent="Theme.IVEDTracker">
+        <item name="android:windowAnimationStyle">@style/PauseDialogAnimation</item>
+    </style>
+
+    <style name="PauseDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
 </resources>

@@ -1,6 +1,5 @@
 package com.ived.tracker.utils.rtc
 
-import android.app.Application
 import android.content.Context
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
@@ -8,7 +7,7 @@ import com.google.firebase.ktx.Firebase
 import org.webrtc.*
 
 class RTCClient(
-    context: Application,
+    context: Context,
     observer: PeerConnection.Observer
 ) {
     private val rootEglBase: EglBase = EglBase.create()
@@ -37,7 +36,7 @@ class RTCClient(
     private val localVideoSource by lazy { peerConnectionFactory.createVideoSource(false) }
     private val peerConnection by lazy { buildPeerConnection(observer) }
 
-    private fun initPeerConnectionFactory(context: Application) {
+    private fun initPeerConnectionFactory(context: Context) {
         val options = PeerConnectionFactory.InitializationOptions.builder(context)
             .setEnableInternalTracer(true)
             .setFieldTrials("WebRTC-H264HighProfile/Enabled/")
@@ -84,19 +83,19 @@ class RTCClient(
         init(rootEglBase.eglBaseContext, null)
     }
 
-    fun startLocalVideoCapture(localVideoOutput: SurfaceViewRenderer) {
+    fun startLocalVideoCapture(context: Context) {
         val surfaceTextureHelper =
             SurfaceTextureHelper.create(Thread.currentThread().name, rootEglBase.eglBaseContext)
         (videoCapturer as VideoCapturer).initialize(
             surfaceTextureHelper,
-            localVideoOutput.context,
+            context,
             localVideoSource.capturerObserver
         )
         videoCapturer.startCapture(320, 240, 60)
         localAudioTrack =
             peerConnectionFactory.createAudioTrack(LOCAL_TRACK_ID + "_audio", audioSource);
         localVideoTrack = peerConnectionFactory.createVideoTrack(LOCAL_TRACK_ID, localVideoSource)
-        localVideoTrack?.addSink(localVideoOutput)
+//        localVideoTrack?.addSink(localVideoOutput)
         val localStream = peerConnectionFactory.createLocalMediaStream(LOCAL_STREAM_ID)
         localStream.addTrack(localVideoTrack)
         localStream.addTrack(localAudioTrack)
@@ -255,17 +254,8 @@ class RTCClient(
                 }
                 peerConnection?.removeIceCandidates(iceCandidateArray.toTypedArray())
             }
-        val endCall = hashMapOf(
-            "type" to "END_CALL"
-        )
         db.collection("calls").document(meetingID)
-            .set(endCall)
-            .addOnSuccessListener {
-                Log.e(TAG, "DocumentSnapshot added")
-            }
-            .addOnFailureListener { e ->
-                Log.e(TAG, "Error adding document", e)
-            }
+            .delete()
 
         peerConnection?.close()
     }
